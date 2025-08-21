@@ -17,3 +17,8 @@ export const OrderIdSchema = z.object({
         message: 'Hay errores'
     })
 })
+
+export const SearchSchema = z.object({
+    search: z.string().trim().min(1, 'La busqueda no puede ir vacia')
+})
+
