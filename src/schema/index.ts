@@ -22,3 +22,17 @@ export const SearchSchema = z.object({
     search: z.string().trim().min(1, 'La busqueda no puede ir vacia')
 })
 
+export const ProductSchema = z.object({
+    name: z.string()
+        .trim()
+        .min(1, { message: 'El Nombre del Producto no puede ir vacio' }),
+    price: z.string()
+        .trim()
+        .transform((value) => parseFloat(value))
+        .refine((value) => value > 0, { message: 'El Precio debe ser mayor a 0' }),
+    categoryId: z.string()
+        .trim()
+        .transform((value) => parseInt(value))
+        .refine((value) => value > 0, { message: 'La Categoría es Obligatoria' })
+})
+
