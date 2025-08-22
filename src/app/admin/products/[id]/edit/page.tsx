@@ -18,9 +18,13 @@ async function getProductById(id: number) {
     return product
 }
 
-export default async function EditProductPage({ params }: { params: { id: string } }) {
+interface PageProps {
+    params: Promise<{ id: string }>
+}
+
+export default async function EditProductPage({ params }: PageProps) {
     const { id } = await params
-    const product = await getProductById(Number(id))
+    const product = await getProductById(parseInt(id))
     return (
         <>
             <Heading>

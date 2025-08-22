@@ -10,7 +10,7 @@ export default async function OrderSidebar() {
     const categories = await getCategories()
 
     return (
-        <aside className="md:w-72 md:h-screen bg-white">
+        <aside className="md:w-72 md:h-max bg-white">
             <Logo />
             <nav className="mt-10">
                 {categories.map(category => (

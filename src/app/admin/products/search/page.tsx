@@ -17,9 +17,13 @@ async function searchProducts(search: string) {
     })
     return products
 }
+interface PageProps {
+    searchParams: Promise<{ search?: string }>
+}
 
-export default async function SearchPage({ searchParams }: { searchParams: { search: string } }) {
-    const search = await searchParams.search
+export default async function SearchPage({ searchParams }: PageProps) {
+    const sp = await searchParams
+    const search = sp.search!
     const products = await searchProducts(search)
     return (
         <>

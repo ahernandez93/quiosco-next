@@ -14,7 +14,11 @@ async function getProductsByCategory(category: string) {
     return products
 }
 
-export default async function OrderPage({ params }: { params: { category: string } }) {
+interface PageProps {
+    params: Promise<{ category: string }>
+}
+
+export default async function OrderPage({ params }: PageProps) {
 
     const { category } = await params
     const products = await getProductsByCategory(category)
