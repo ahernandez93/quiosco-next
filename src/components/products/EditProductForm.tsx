@@ -2,13 +2,15 @@
 
 import { ProductSchema } from "@/schema"
 import { toast } from "react-toastify"
-import { createProduct } from "@/actions/create-product-action"
+import { updateProduct } from "@/actions/update-product-action"
 import { useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 
-export default function AddProductForm({ children }: { children: React.ReactNode }) {
-
+export default function EditProductForm({ children }: { children: React.ReactNode }) {
     const router = useRouter()
-
+    const params = useParams()
+    const id = Number(params.id!)
+    
     const handleSubmit = async (formData: FormData) => {
         const data = {
             name: formData.get('name'),
@@ -16,7 +18,7 @@ export default function AddProductForm({ children }: { children: React.ReactNode
             categoryId: formData.get('categoryId'),
             image: formData.get('image'),
         }
-
+        
         const result = ProductSchema.safeParse(data)
         if (!result.success) {
             result.error.issues.forEach(issue => {
@@ -25,14 +27,14 @@ export default function AddProductForm({ children }: { children: React.ReactNode
             return
         }
         
-        const response = await createProduct(data)
+        const response = await updateProduct(data, id)
         if (response?.errors) {
             response.errors.forEach(error => {
                 toast.error(error.message)
             })
             return
         }
-        toast.success('Producto Creado correctamente')
+        toast.success('Producto Actualizado correctamente')
         router.push('/admin/products')
     }
     return (
@@ -45,7 +47,7 @@ export default function AddProductForm({ children }: { children: React.ReactNode
                 <input
                     type="submit"
                     className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer"
-                    value="Registrar Producto"
+                    value="Guardar Cambios"
                 />
             </form>
         </div>
